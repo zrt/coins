@@ -272,5 +272,5 @@ func main() {
     r.GET("/info", getInfo)
     r.POST("/transfer", transfer)
 
-    e.Logger.Fatal(e.Start(":7000"))
+    e.Logger.Fatal(e.Start("127.0.0.1:7000"))
 }
