@@ -188,12 +188,14 @@ func transfer(c echo.Context) error{
 
     toinfo, ok := data[toid]
     if !ok{
-        ok = loadInfo(id)
+        ok = loadInfo(toid)
         if !ok{
             return c.JSON(http.StatusOK, map[string]string{
                 "result": "failed",
                 "detail": "github id not found",
             })
+        }else{
+            toinfo = data[toid]
         }
         
     }
