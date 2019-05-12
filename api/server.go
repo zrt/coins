@@ -231,7 +231,7 @@ func transfer(c echo.Context) error{
     if len(info.History) > 2000{
         info.History = string(info.History[:2000])+"..."
     }
-    toinfo.History = msg + info.History
+    toinfo.History = msg + toinfo.History
     if len(toinfo.History) > 2000{
         toinfo.History = string(toinfo.History[:2000])+"..."
     }
