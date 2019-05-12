@@ -198,6 +198,12 @@ func transfer(c echo.Context) error{
             "detail": "amount <= 0",
         })
     }
+    if id == toid {
+        return c.JSON(http.StatusOK, map[string]string{
+            "result": "failed",
+            "detail": "id == toid",
+        })
+    }
 
     lock.Lock()
     defer lock.Unlock()
