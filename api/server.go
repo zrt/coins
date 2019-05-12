@@ -132,11 +132,27 @@ func getInfo(c echo.Context) error{
     if !ok{
         ok := loadInfo(id)
         if !ok{
+            amountNew := int64(0)
+            if id != adminID{
+                amountNew = 50
+                adminInfo, ok := data[adminID]
+                if !ok{
+                    loadInfo(adminID)
+                    adminInfo = data[adminID]
+                }
+                adminInfo.Balance = adminInfo.Balance - amountNew
+                msg := fmt.Sprintf(time.Now().Format(timeformat)+" %s(%d) -> %s(%d) : %d (New User)\n", adminInfo.Name, adminInfo.ID, name, id, amountNew)
+                adminInfo.History = msg + adminInfo.History
+                if len(adminInfo.History) > 2000{
+                    adminInfo.History = string(adminInfo.History[:2000])+"..."
+                }
+                dumpInfo(adminID)
+            }
             info = &UserInfo{
                 ID: id,
                 Name: name,
-                Balance: 0,
-                History: time.Now().Format(timeformat)+" Create Account\n",
+                Balance: amountNew,
+                History: time.Now().Format(timeformat)+fmt.Sprintf(" Create Account: +%d\n",amountNew),
             }
             data[id] = info
             dumpInfo(id)
